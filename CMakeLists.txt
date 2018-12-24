@@ -3,8 +3,5 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(AlgorithmExercise main.cpp)
+add_executable(AlgorithmExercise PQUnorderedVec.cpp)
 
-add_executable(QuickInsertSort QuickInsertSort.cpp)
-
-add_executable(Quick3way Quick3way.cpp)
