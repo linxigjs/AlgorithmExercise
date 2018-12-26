@@ -2,7 +2,7 @@
 // Created by gjs on 18-10-18.
 //
 
-// Priority Queue with unordered list
+// Priority Queue with ordered list
 
 #include <iostream>
 #include <algorithm>
@@ -12,14 +12,14 @@ using namespace std;
 
 template <typename T>
 struct Node{
-    Node(T v) : val_(v), next_(nullptr) {}
-    Node(T v, Node* n) : val_(v), next_(n) {}
-    Node<T>* next_;
-    T val_;
+Node(T v) : val_(v), next_(nullptr) {}
+Node(T v, Node* n) : val_(v), next_(n) {}
+Node<T>* next_;
+T val_;
 };
 
 template <typename T>
-class PQUnorderedList : public PriorityQueue<T> {
+class PQOrderedList : public PriorityQueue<T> {
 public:
     void Insert(T v) {
         Node<T>* create = new Node<T>(v);
@@ -27,8 +27,23 @@ public:
             front_ = create;
             rear_ = create;
         } else {
-            rear_->next_ = create;
-            rear_ = rear_->next_;
+            if(front_->val_ < v) {
+                create->next_ = front_;
+                front_ = create;
+            } else {
+                auto p = front_, last = front_;
+                while(p && p->val_ > v) {
+                    last = p;
+                    p = p->next_;
+                }
+                if(!p) {
+                    last->next_ = create;
+                    rear_ = create;
+                } else {
+                    last->next_ = create;
+                    create->next_ = p;
+                }
+            }
         }
         Print();
     }
@@ -38,40 +53,13 @@ public:
 //            return -1;
             throw out_of_range("List is empty. NO element to delete.");
         }
-        int i=0, maxelem = INT32_MIN, maxind = -1;
-        Node<T>* p = front_;
-        while(p) {
-            if(p->val_>maxelem) {
-                maxind = i;
-                maxelem = p->val_;
-                i++;
-            }
-            p = p->next_;
-        }
-        T v = -1;
-        if(maxind != 0) {
-            p = front_;
-            for(i=0; i<maxind-1; i++) {
-                p = p->next_;
-            }
-            if(p->next_ == rear_) {
-                rear_ = p;
-                p->next_ = nullptr;
-            } else {
-                v = p->next_->val_;
-                p->next_ = p->next_->next_;
-            }
+        T v = front_->val_;
+        if(!front_->next_) {
+            front_ = nullptr;
+            rear_ = nullptr;
         } else {
-            v = front_->val_;
-            if(!front_->next_) {
-                front_ = nullptr;
-                rear_ = nullptr;
-            } else {
-                front_ = front_->next_;
-            }
-
+            front_ = front_->next_;
         }
-
         Print();
         return v;
     };
@@ -112,20 +100,22 @@ private:
 };
 
 int main() {
-    PQUnorderedList<int> vec;
+    PQOrderedList<int> vec;
     vec.Insert(39);
     vec.Insert(349);
     vec.Insert(393);
     vec.Insert(31);
     vec.Insert(19);
-    vec.IsEmpty();
+
+    vec.Size();
 
     vec.DeleteMax();
     vec.DeleteMax();
     vec.DeleteMax();
     vec.DeleteMax();
     vec.DeleteMax();
-    vec.DeleteMax();
+
+    vec.IsEmpty();
 
     return 0;
 }

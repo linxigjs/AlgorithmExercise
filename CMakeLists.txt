@@ -9,4 +9,7 @@ add_executable(PQOrderedVec PQOrderedVec.cpp)
 
 add_executable(PQUnorderedList PQUnorderedList.cpp)
 
+add_executable(PQOrderedList PQOrderedList.cpp)
+
+
 
