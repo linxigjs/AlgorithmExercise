@@ -7,3 +7,6 @@ add_executable(PQUnorderedVec PQUnorderedVec.cpp)
 
 add_executable(PQOrderedVec PQOrderedVec.cpp)
 
+add_executable(PQUnorderedList PQUnorderedList.cpp)
+
+
