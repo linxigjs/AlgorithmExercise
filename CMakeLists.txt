@@ -3,5 +3,7 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(AlgorithmExercise PQUnorderedVec.cpp)
+add_executable(PQUnorderedVec PQUnorderedVec.cpp)
+
+add_executable(PQOrderedVec PQOrderedVec.cpp)
 
