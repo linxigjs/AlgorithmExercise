@@ -11,5 +11,6 @@ add_executable(PQUnorderedList PQUnorderedList.cpp)
 
 add_executable(PQOrderedList PQOrderedList.cpp)
 
+add_executable(PQBinaryHeap PQBinaryHeap.cpp)
 
 
