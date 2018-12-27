@@ -3,14 +3,8 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(PQUnorderedVec PQUnorderedVec.cpp)
+add_executable(HeapSort HeapSort.cpp)
 
-add_executable(PQOrderedVec PQOrderedVec.cpp)
 
-add_executable(PQUnorderedList PQUnorderedList.cpp)
-
-add_executable(PQOrderedList PQOrderedList.cpp)
-
-add_executable(PQBinaryHeap PQBinaryHeap.cpp)
 
 
