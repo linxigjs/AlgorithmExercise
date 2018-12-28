@@ -60,8 +60,88 @@ public:
             return 0;
         return Rank(root_, k);
     }
+    void DeleteMin() {
+        if(IsRootNull())
+            return;
+        root_ = DeleteMin(root_);
+    }
+    void Delete(KEY k) {
+        if(IsRootNull())
+            return;
+        root_ = Delete(root_, k);
+    }
+
+    void MediumOrderPrint() {
+        cout << "MediumOrderPrint:" << endl;
+        if(IsRootNull()) {
+            return;
+        }
+        Print(root_);
+        cout << endl;
+    }
+
+    void RangePrint(KEY lo, KEY hi) {
+        cout << "RangePrint:" << endl;
+        if(IsRootNull()) {
+            cout << " ";
+            return;
+        }
+        RangePrint(root_, lo, hi);
+        cout << endl;
+    }
 
 private:
+    void RangePrint(Node* node, KEY lo, KEY hi) {
+        if(!node) {
+            cout << " ";
+            return;
+        }
+        if(node->key_ > lo) {
+            RangePrint(node->left_, lo, hi);
+        }
+        if(node->key_ < hi) {
+            RangePrint(node->right_, lo, hi);
+        }
+        if(node->key_ >= lo && node->key_ <= hi) {
+            cout << " " << node->key_ << " ";
+        }
+
+    }
+    void Print(Node* node) {
+        if(!node)
+            return;
+        Print(node->left_);
+        cout << " " << node->value_ << " ";
+        Print(node->right_);
+    }
+    Node* Delete(Node* node, KEY k) {
+        if(node->key_ > k) {
+            node->left_ = Delete(node->left_, k);
+        } else if(node->key_ < k) {
+            node->right_ = Delete(node->right_, k);
+        } else {
+            if(!node->left_) {
+                return node->right_;
+            }
+            if(!node->right_) {
+                return node->left_;
+            }
+            auto temp = node;
+            node = Min(node->right_);
+            node->right_ = DeleteMin(node->right_);
+            node->left_ = temp->left_;
+        }
+        node->N_ = Size(node->left_) + Size(node->right_) + 1;
+        return node;
+    }
+    Node* DeleteMin(Node* node) {
+        if(!node->left_) {
+            return node->right_;
+        }
+        node->left_ = DeleteMin(node->left_);
+        node->N_ = Size(node->left_) + 1 + Size(node->right_);
+        return node;
+    }
     RANK Rank(Node* node, KEY k) {
         if(!node)
             return 0;
@@ -151,11 +231,34 @@ private:
         }
     }
 private:
-    Node *root_;
+    Node *root_ = nullptr;
 };
 
 
 
 int main() {
+//    Node* myroot = new Node(2, "abc", 1);
+    BinarySearchTree mytree;
+    mytree.Put(3, "a");
+    cout << mytree.Get(3) << endl;
+    mytree.Put(33, "g");
+    mytree.Put(23, "h");
+    mytree.Put(13, "e");
+    mytree.Put(43, "t");
+    mytree.RangePrint(20,40);
+    mytree.MediumOrderPrint();
+    cout << mytree.Rank(55) << endl;
+    cout << mytree.Floor(30) << endl;
+    cout << mytree.Max() << endl;
+
+    cout << mytree.Min() << endl;
+    mytree.DeleteMin();
+    mytree.MediumOrderPrint();
+    cout << mytree.Min() << endl;
+    mytree.Delete(43);
+    mytree.MediumOrderPrint();
+    cout << mytree.Max() << endl;
+    cout << mytree.Select(0) << endl;
+
     return 0;
 }
