@@ -3,7 +3,7 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(HeapSort HeapSort.cpp)
+add_executable(BinarySearchTree BinarySearchTree.cpp)
 
 
 
