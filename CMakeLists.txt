@@ -3,7 +3,7 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(RedBlackTree RedBlackTree.cpp)
+add_executable(Graph main.cpp Graph.h)
 
 
 
