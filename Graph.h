@@ -10,8 +10,8 @@ using namespace std;
 
 class Graph {
 private:
-    int V_ = -1;
-    int E_ = -1;
+    int V_ = 0;
+    int E_ = 0;
     vector<vector<int>> adj_;
 public:
     Graph(int v) {
@@ -29,17 +29,17 @@ public:
         if(infile) {
             string s;
             while(getline(infile, s)) {
-                cout << s << endl;
+//                cout << s << endl;
                 ParseString(s, vec);
             }
             infile.close();
         } else {
             cout << "Open file failed." << endl;
         }
-        for(auto e : vec) {
-            cout << e << " ";
-        }
-        cout << endl;
+//        for(auto e : vec) {
+//            cout << e << " ";
+//        }
+//        cout << endl;
         if(!vec.empty()) {
             V_ = vec[0];
             for(int i=0; i<V_; i++) {
@@ -50,6 +50,7 @@ public:
                 AddEdge(vec[i], vec[i+1]);
             }
         }
+        cout << "Graph build done." << endl;
     }
     vector<int> Adj(int v) {
         return adj_[v];
@@ -63,17 +64,17 @@ public:
 private:
     void AddEdge(int l, int r) {
         E_++;
-
         adj_[l].emplace_back(r);
+        adj_[r].emplace_back(l);
     }
     void ParseString(string str, vector<int> &vec) {
+        str += ' ';
         vector<int> temp;
         for(int i=0; i<str.size(); i++) {
             int num = 0;
             if(str[i] >= '0' && str[i] <= '9') {
                 temp.emplace_back(static_cast<int>(str[i] - '0'));
-            }
-            if(!temp.empty() && (str[i] == ' ' || str[i] == '\n')) {
+            } else if(!temp.empty()) {
                 if(temp.size() == 1) {
                     num = temp[0];
                 } else {
