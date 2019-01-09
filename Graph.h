@@ -64,8 +64,10 @@ public:
 private:
     void AddEdge(int l, int r) {
         E_++;
-        adj_[l].emplace_back(r);
-        adj_[r].emplace_back(l);
+        if(find(adj_[l].begin(), adj_[l].end(), r) == adj_[l].end())
+            adj_[l].emplace_back(r);
+        if(find(adj_[r].begin(), adj_[r].end(), l) == adj_[r].end())
+            adj_[r].emplace_back(l);
     }
     void ParseString(string str, vector<int> &vec) {
         str += ' ';
