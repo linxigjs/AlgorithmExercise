@@ -3,7 +3,9 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Graph main.cpp Graph.h DepthFirstSearch.h)
+add_executable(DepthFirstSearch main1.cpp Graph.h DepthFirstSearch.h)
 
+add_executable(DepthFirstPaths main2.cpp Graph.h DepthFirstPaths.h)
 
+add_executable(BreadthFirstPaths main3.cpp Graph.h BreadthFirstPaths.h)
 
