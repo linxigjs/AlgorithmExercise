@@ -1,28 +1,31 @@
 //
-// Created by gjs on 19-1-7.
+// Created by gjs on 19-1-10.
 //
+
+#ifndef ALGORITHMEXERCISE_DIGRAPH_H
+#define ALGORITHMEXERCISE_DIGRAPH_H
 
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
-class Graph {
+class Digraph {
 private:
-    int V_ = 0;
-    int E_ = 0;
     vector<vector<int>> adj_;
+    int V_ = 0, E_ = 0;
 public:
-    Graph(int v) {
-        V_ = v;
+    Digraph(int n) {
+        V_ = n;
         E_ = 0;
         for(int i=0; i<V_; i++) {
             vector<int> temp;
             adj_.emplace_back(temp);
         }
     }
-    Graph(string filepath) {
+    Digraph(string filepath) {
         ifstream infile;
         infile.open(filepath, ios::in);
         vector<int> vec;
@@ -52,23 +55,25 @@ public:
         }
         cout << "Graph build done." << endl;
     }
-    vector<int> Adj(int v) {
+    vector<int> Adj(int v) const {
         return adj_[v];
     }
     int GetV() const {
         return V_;
-    }
+    };
     int GetE() const {
         return E_;
+    };
+    Digraph Reverse() const {
+        Digraph r = Digraph(V_);
+        for(int i=0; i<V_; i++) {
+            for(int w : Adj(i))
+                r.AddEdge(w, i);
+        }
+        return r;
     }
+
 private:
-    void AddEdge(int l, int r) {
-        E_++;
-        if(find(adj_[l].begin(), adj_[l].end(), r) == adj_[l].end())
-            adj_[l].emplace_back(r);
-        if(find(adj_[r].begin(), adj_[r].end(), l) == adj_[r].end())
-            adj_[r].emplace_back(l);
-    }
     void ParseString(string str, vector<int> &vec) {
         str += ' ';
         vector<int> temp;
@@ -89,5 +94,12 @@ private:
             }
         }
     }
+    void AddEdge(int v, int w) {
+        if(find(adj_[v].begin(), adj_[v].end(), w) == adj_[v].end()) {
+            adj_[v].emplace_back(w);
+            E_++;
+        }
+    }
 };
 
+#endif //ALGORITHMEXERCISE_DIGRAPH_H

@@ -2,21 +2,18 @@
 // Created by gjs on 19-1-7.
 //
 
-#include "DepthFirstSearch.h"
+#include "DirectedDFS.h"
 
 
 int main() {
-    Graph gh("../tiny.txt");
-    DepthFirstSearch ds(gh, 0);
-
+    Digraph gh("../tiny.txt");
+    vector<int> sources{1, 2, 6};
+    DirectedDFS reachable(gh, sources);
     for(int i=0; i<gh.GetV(); i++) {
-        if(ds.Marked(i) == 1)
+        if(reachable.Marked(i))
             cout << i << " ";
     }
-    if(ds.GetCount() != gh.GetV())
-        cout << "Not Connect" << endl;
-    else
-        cout << "Connect" << endl;
+    cout << endl;
 
     return 0;
 }
