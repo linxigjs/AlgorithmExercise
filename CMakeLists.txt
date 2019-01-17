@@ -9,4 +9,4 @@ add_executable(DirectedCycle main2.cpp Digraph.h DirectedCycle.h)
 
 add_executable(DepthFirstOrder main3.cpp Digraph.h DepthFirstOrder.h Topological.h)
 
-add_executable(KosarajuSSC main4.cpp Digraph.h DepthFirstOrder.h KosarajuSSC.h)
+add_executable(KosarajuSSC main4.cpp Digraph.h DepthFirstOrder.h KosarajuSSC.h TransitiveClosure.h)
