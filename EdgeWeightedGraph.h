@@ -55,6 +55,10 @@ public:
         return E;
     }
 
+    vector<shared_ptr<Edge>> GetAdj(int v) {
+        return adj[v];
+    }
+
     vector<shared_ptr<Edge>> GetEdges() const {
         vector<shared_ptr<Edge>> res;
         for(int i=0; i<V; i++) {

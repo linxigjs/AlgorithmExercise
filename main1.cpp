@@ -2,14 +2,14 @@
 // Created by gjs on 19-1-7.
 //
 
-#include "EdgeWeightedGraph.h"
+#include "LazyPrimMST.h"
 
 using namespace std;
 
 int main() {
-    EdgeWeightedGraph ew("../tiny.txt");
-
-    for(auto e : ew.GetEdges()) {
+    EdgeWeightedGraph ew("../tinyEWG.txt");
+    LazyPrimMST mst(ew);
+    for(auto e : mst.GetMST()) {
         cout << *e;
     }
     cout << endl;
