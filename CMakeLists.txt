@@ -3,5 +3,5 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(AlgorithmExercise main.cpp)
+add_executable(AlgorithmExercise Traversal.cpp)
 
