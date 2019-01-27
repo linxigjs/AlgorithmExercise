@@ -3,6 +3,8 @@
 //
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -24,6 +26,41 @@ void PreOrder(Node* head) {
     PreOrder(head->right);
 }
 
+void PreOrder2(Node* head) {
+    if (!head) {
+        return;
+    }
+    vector<Node *> vec;
+    vec.emplace_back(head);
+    while(!vec.empty()) {
+        Node* cur = vec.back();
+        vec.pop_back();
+        cout << cur->val << " ";
+        if(cur->right) {
+            vec.emplace_back(cur->right);
+        }
+        if(cur->left) {
+            vec.emplace_back(cur->left);
+        }
+    }
+}
+
+void PreOrder3(Node* head) {
+    vector<Node *> vec;
+    Node *p = head;
+    while(p || !vec.empty()) {
+        if(p) {
+            vec.emplace_back(p);
+            cout << p->val << " ";
+            p = p->left;
+        } else {
+            p = vec.back();
+            vec.pop_back();
+            p = p->right;
+        }
+    }
+}
+
 void InOrder(Node* head) {
     if(!head) {
         return;
@@ -33,6 +70,23 @@ void InOrder(Node* head) {
     InOrder(head->right);
 }
 
+void InOrder2(Node* head) {
+    vector<Node *> vec;
+    Node *p = head;
+    while(p || !vec.empty()) {
+        if(p) {
+            vec.emplace_back(p);
+            p = p->left;
+        } else {
+            p = vec.back();
+            vec.pop_back();
+            cout << p->val << " ";
+            p = p->right;
+        }
+    }
+
+}
+
 void PostOrder(Node* head) {
     if(!head) {
         return;
@@ -40,6 +94,27 @@ void PostOrder(Node* head) {
     PostOrder(head->left);
     PostOrder(head->right);
     cout << head->val << " ";
+}
+
+void PostOrder2(Node* head) {
+    vector<double> res;
+    vector<Node *> vec;
+    Node *p = head;
+    while(p || !vec.empty()) {
+        if(p) {
+            res.emplace_back(p->val);
+            vec.emplace_back(p);
+            p = p->right;
+        } else {
+            p = vec.back();
+            vec.pop_back();
+            p = p->left;
+        }
+    }
+    reverse(res.begin(), res.end());
+    for(auto e : res) {
+        cout << e << " ";
+    }
 }
 
 int main() {
@@ -59,12 +134,28 @@ int main() {
     PreOrder(&head);
     cout << endl;
 
+    cout << "PreOrder2: ";
+    PreOrder2(&head);
+    cout << endl;
+
+    cout << "PreOrder3: ";
+    PreOrder3(&head);
+    cout << endl;
+
     cout << "InOrder: ";
     InOrder(&head);
     cout << endl;
 
+    cout << "InOrder2: ";
+    InOrder2(&head);
+    cout << endl;
+
     cout << "PostOrder: ";
     PostOrder(&head);
+    cout << endl;
+
+    cout << "PostOrder2: ";
+    PostOrder2(&head);
     cout << endl;
 
     return 0;
