@@ -5,6 +5,11 @@
 #ifndef ALGORITHMEXERCISE_DIRECTEDEDGE_H
 #define ALGORITHMEXERCISE_DIRECTEDEDGE_H
 
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
 class DirectedEdge {
 public:
     DirectedEdge(int v, int w, double weight) : v(v), w(w), weight(weight) {}
@@ -16,6 +21,9 @@ public:
     }
     double Weight() {
         return weight;
+    }
+    friend std::ostream& operator<<(std::ostream& out, std::shared_ptr<DirectedEdge> e) {
+        cout << e->v << " " << e->w << " " << e->weight << endl;
     }
 
 private:

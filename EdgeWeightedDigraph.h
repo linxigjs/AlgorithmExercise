@@ -49,6 +49,10 @@ public:
         return E;
     }
 
+    vector<shared_ptr<DirectedEdge>> GetAdj(int v) {
+        return adj[v];
+    }
+
 private:
     int ParseString(string str, int &v, int &w, double &weight) {
         string nospace = RemovePreAndLastSpace(str);
