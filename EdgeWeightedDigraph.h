@@ -53,6 +53,14 @@ public:
         return adj[v];
     }
 
+    vector<shared_ptr<DirectedEdge>> GetAllEdges() {
+        vector<shared_ptr<DirectedEdge>> edges;
+        for(auto e : adj) {
+            edges.insert(edges.end(), e.begin(), e.end());
+        }
+        return edges;
+    }
+
 private:
     int ParseString(string str, int &v, int &w, double &weight) {
         string nospace = RemovePreAndLastSpace(str);

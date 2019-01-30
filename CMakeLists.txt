@@ -3,5 +3,5 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(EdgeWeightedDigraph main1.cpp DirectedEdge.h EdgeWeightedDigraph.h SP.h)
+add_executable(EdgeWeightedDigraph main1.cpp DirectedEdge.h EdgeWeightedDigraph.h DijkstraSP.h)
 

@@ -2,17 +2,26 @@
 // Created by gjs on 19-1-7.
 //
 
-#include "SP.h"
+#include "DijkstraSP.h"
 
 
 int main() {
     EdgeWeightedDigraph gh("../tinyEWD.txt");
+//    for(auto e : gh.GetAllEdges()) {
+//        cout << e;
+//    }
+//    cout << endl;
 
-    SP sp(gh, 3);
+    DijkstraSP sp(gh, 0);
 
-    for(auto e : sp.GetPathTo(5)) {
-        cout << e;
+    for(int i=1; i<gh.GetV(); i++) {
+        cout << "0 --> " << i << " : " << endl;
+        for(auto e : sp.GetPathTo(i)) {
+            cout << e;
+        }
+        cout << endl;
     }
+
 
     cout << endl;
 
