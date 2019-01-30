@@ -26,9 +26,9 @@ public:
         distto.assign(G.GetV(), DBL_MAX);
         edgeto.assign(G.GetV(), shared_ptr<DirectedEdge>());
         distto[s] = 0.0;
-        pq.emplace(make_pair(s, 0.0));
+        pq.emplace(make_pair(0.0, s));
         while(!pq.empty()) {
-            int v = pq.begin()->first;
+            int v = pq.begin()->second;
             pq.erase(pq.begin());
             Relax(G, v);
         }
@@ -40,7 +40,7 @@ public:
 
     vector<shared_ptr<DirectedEdge>> GetPathTo(int v) {
         if(!HasPathTo(v)) {
-            throw logic_error("Havs No Path To input Node");
+            throw logic_error("Has No Path To input Node");
         }
         vector<shared_ptr<DirectedEdge>> result;
         for(auto edge = edgeto[v]; edge != nullptr; edge = edgeto[edge->From()]) {
@@ -57,7 +57,7 @@ public:
 private:
     vector<double> distto;
     vector<shared_ptr<DirectedEdge>> edgeto;
-    map<int, double> pq;
+    multimap<double, int> pq;
 
     void Relax(shared_ptr<DirectedEdge> e) {
         int v = e->From(), w = e->To();
@@ -73,14 +73,25 @@ private:
             if(distto[w] > distto[v] + e->Weight()) {
                 distto[w] = distto[v] + e->Weight();
                 edgeto[w] = e;
-                auto iter = pq.find(w);
+                auto iter = pq.begin();
+                advance(iter, FindElem(pq, w));
                 if(iter == pq.end()) {
-                    pq.insert(pair<int, double>(w, distto[w]));
+                    pq.insert(pair<double, int>(distto[w], w));
                 } else {
-                    iter->second = distto[w];
+                    pq.erase(iter);
+                    pq.insert(pair<double, int>(distto[w], w));
                 }
             }
         }
+    }
+
+    int FindElem(multimap<double, int> pq, int v) {
+        for(auto it = pq.begin(); it!=pq.end(); it++) {
+            if(it->second == v) {
+                return distance(pq.begin(), it);
+            }
+        }
+        return pq.size();
     }
 };
 
