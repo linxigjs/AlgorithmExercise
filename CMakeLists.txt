@@ -8,3 +8,5 @@ add_executable(EdgeWeightedDigraph main1.cpp DirectedEdge.h EdgeWeightedDigraph.
 add_executable(Topological main2.cpp Topological.h)
 
 add_executable(AcycliSP main3.cpp Topological.h AcyclicSP.h)
+
+add_executable(AcycliLP main4.cpp Topological.h AcyclicLP.h)
