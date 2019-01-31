@@ -13,3 +13,4 @@ add_executable(AcycliLP main4.cpp Topological.h AcyclicLP.h)
 
 add_executable(ParallelTaskSchedule main5.cpp ParallelTaskSchedule.h)
 
+add_executable(BellmanFordSP main6.cpp BellmanFordSP.h)
