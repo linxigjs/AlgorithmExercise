@@ -11,11 +11,14 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <deque>
 
 using namespace std;
 
 class EdgeWeightedDigraph {
 public:
+    EdgeWeightedDigraph() {}
+
     EdgeWeightedDigraph(string filepath) {
         ifstream infile;
         infile.open(filepath, ios::in);
@@ -33,6 +36,39 @@ public:
             while(getline(infile, s)) {
                 ParseString(s, v, w, weight);
                 AddEdge(v, w, weight);
+            }
+            infile.close();
+        } else {
+            cout << "Open file failed." << endl;
+        }
+        cout << "Graph build done." << endl;
+    }
+
+    void ParseTaskDigraph(string filepath) {
+        ifstream infile;
+        infile.open(filepath, ios::in);
+        int edgecnt = 0;
+        double weight = 0.0;
+        if(infile) {
+            string str;
+            getline(infile, str);
+            int SV = stoi(str);
+            int source = 2*SV, goal = 2*SV+1;
+            V = 2*SV + 2;
+            for(int i=0; i<V; i++) {
+                vector<shared_ptr<DirectedEdge>> temp;
+                adj.emplace_back(temp);
+            }
+            while(getline(infile, str)) {
+                vector<double> slice;
+                ParseString(str, slice);
+                AddEdge(edgecnt, edgecnt+SV, slice[0]);
+                AddEdge(source, edgecnt, 0.0);
+                AddEdge(edgecnt+SV, goal, 0.0);
+                for(int i=1; i<slice.size(); i++) {
+                    AddEdge(edgecnt+SV, static_cast<int>(slice[i]), 0.0);
+                }
+                edgecnt++;
             }
             infile.close();
         } else {
@@ -73,6 +109,67 @@ private:
         weight = stod(nospace.substr(end+1, str.size()));
         w = stoi(nospace.substr(begin, end-1));
         return 0;
+    }
+
+    int ParseString(string str, vector<double>& slice) {
+        string nospace = RemovePreAndLastSpace(str);
+//        cout << nospace << endl;
+        for(int i=0; i<str.length(); ) {
+            auto gap = nospace.find(' ', i+1);
+            if(gap != nospace.npos) {
+//                cout << " 1-- " << str.substr(i, gap-i) << endl;
+                slice.emplace_back(stod(str.substr(i, gap-i)));
+                i = gap+1;
+            } else {
+//                cout << " 2-- " << str.substr(i, str.length()-i) << endl;
+                slice.emplace_back(stod(str.substr(i, str.length()-i)));
+                break;
+            }
+        }
+        return 0;
+    }
+
+    double stod(string num)
+    {
+        bool minus = false;      //标记是否是负数
+        string real = num;       //real表示num的绝对值
+        if (num.at(0) == '-')
+        {
+            minus = true;
+            real = num.substr(1, num.size()-1);
+        }
+
+        char c;
+        int i = 0;
+        double result = 0.0 , dec = 10.0;
+        bool isDec = false;       //标记是否有小数
+        unsigned long size = real.size();
+        while(i < size)
+        {
+            c = real.at(i);
+            if (c == '.')
+            {//包含小数
+                isDec = true;
+                i++;
+                continue;
+            }
+            if (!isDec)
+            {
+                result = result*10 + c - '0';
+            }
+            else
+            {//识别小数点之后都进入这个分支
+                result = result + (c - '0')/dec;
+                dec *= 10;
+            }
+            i++;
+        }
+
+        if (minus == true) {
+            result = -result;
+        }
+
+        return result;
     }
 
     string RemovePreAndLastSpace(const string& str) {
