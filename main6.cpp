@@ -7,20 +7,14 @@
 using namespace std;
 
 int main() {
-    EdgeWeightedDigraph task;
-    task.ParseTaskDigraph("../jobsPC.txt");
+    EdgeWeightedDigraph task("../tinyEWDnc.txt");
 
-    
-    queue<int> con;
-    con.emplace(1);
-    con.emplace(2);
-    con.emplace(3);
-    con.emplace(4);
-    con.emplace(5);
-    
-    cout << con.front() << " " << con.back() << endl;
-    con.pop();
-    cout << con.front() << " " << con.back() << endl;
+    BellmanFordSP bell(task, 0);
+    if(bell.HasNegativeCycle()) {
+        for(auto e : bell.GetCycle()) {
+            cout << e;
+        }
+    }
 
     cout << endl;
 

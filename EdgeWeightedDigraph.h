@@ -17,7 +17,18 @@ using namespace std;
 
 class EdgeWeightedDigraph {
 public:
-    EdgeWeightedDigraph() {}
+    EdgeWeightedDigraph() {
+        V = 0;
+        E = 0;
+    }
+
+    EdgeWeightedDigraph(int n) {
+        V = n;
+        for(int i=0; i<V; i++) {
+            vector<shared_ptr<DirectedEdge>> temp;
+            adj.emplace_back(temp);
+        }
+    }
 
     EdgeWeightedDigraph(string filepath) {
         ifstream infile;
@@ -182,13 +193,20 @@ private:
         return str.substr(i,j-i+1);
     }
 
+public:
     void AddEdge(int v, int w, double weight) {
         adj[v].emplace_back(make_shared<DirectedEdge>(v, w, weight));
         E++;
     }
 
+    void AddEdge(shared_ptr<DirectedEdge> edge) {
+        AddEdge(edge->From(), edge->To(), edge->Weight());
+    }
+
+private:
     vector<vector<shared_ptr<DirectedEdge>>> adj;
-    int V = 0, E = 0;
+    int V = 0;
+    int E = 0;
 };
 
 #endif //ALGORITHMEXERCISE_EDGEWEIGHTEDDIGRAPH_H
