@@ -203,6 +203,24 @@ public:
         AddEdge(edge->From(), edge->To(), edge->Weight());
     }
 
+    void RemoveEdge(shared_ptr<DirectedEdge> edge) {
+        for(int i=0; i<adj[edge->From()].size(); i++) {
+            if(adj[edge->From()][i] == edge) {
+                adj[edge->From()].erase(adj[edge->From()].begin() + i);
+                return;
+            }
+        }
+    }
+
+    void RemoveEdge(int v, int w, double weight) {
+        for(int i=0; i<adj[v].size(); i++) {
+            if(*adj[v][i] == DirectedEdge(v,w,weight)) {
+                adj[v].erase(adj[v].begin() + i);
+                return;
+            }
+        }
+    }
+
 private:
     vector<vector<shared_ptr<DirectedEdge>>> adj;
     int V = 0;

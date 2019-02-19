@@ -25,6 +25,12 @@ public:
     friend std::ostream& operator<<(std::ostream& out, std::shared_ptr<DirectedEdge> e) {
         cout << e->v << " " << e->w << " " << e->weight << endl;
     }
+    bool operator==(DirectedEdge e) {
+        return (v == e.From()) && (w == e.To()) && (weight == e.weight);
+    }
+    bool operator==(std::shared_ptr<DirectedEdge> e) {
+        return (v == e->From()) && (w == e->To()) && (weight == e->weight);
+    }
 
 private:
     int v = 0, w = 0;

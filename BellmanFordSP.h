@@ -58,10 +58,13 @@ private:
                     inqueue[w] = true;
                 }
             }
-            if((calls++) % G.GetV() == 0 && calls!=0) {
-                FindNegativeCycle();
-            }
         }
+//        calls++;
+        if(calls % G.GetV() == 0 && calls!=0) {
+            cout << calls%G.GetV() << endl;
+            FindNegativeCycle();
+        }
+        calls++;
     }
 
     void FindNegativeCycle() {
