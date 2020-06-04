@@ -7,6 +7,8 @@
 
 using namespace std;
 
+EHanSingleton EHanSingleton::ehan_;
+
 //std::shared_ptr<LanHanSingleton> LanHanSingleton::lanhan_ = nullptr;
 //std::mutex LanHanSingleton::mutex_;
 

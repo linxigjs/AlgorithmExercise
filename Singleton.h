@@ -18,8 +18,7 @@ public:
     EHanSingleton& operator=(const EHanSingleton&)=delete;
 
     static EHanSingleton& GetInstance() {
-        static EHanSingleton lanhan;
-        return lanhan;
+        return ehan_;
     }
 
     ~EHanSingleton(){
@@ -39,6 +38,8 @@ private:
         std::cout << "ehan constructor called!" << std::endl;
     }
 
+    static EHanSingleton ehan_;
+
     int num_ = 0;
 };
 
@@ -54,7 +55,7 @@ public:
             std::lock_guard<std::mutex> lk(mutex_);
 //            mutex_.lock();
             if(nullptr == lanhan_) {
-                //make_shared 函数模板并非 Widget 类的友元函数，其访问了私有构造函数，最简单的方法就是用new替代make_shared
+                //make_shared 函数模板并非类的友元函数，其访问了私有构造函数，最简单的方法就是用new替代make_shared
 //                lanhan_ = std::make_shared<LanHanSingleton>();  //error
                 lanhan_ = std::shared_ptr<LanHanSingleton>(new LanHanSingleton);
 
