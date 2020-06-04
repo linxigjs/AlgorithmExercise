@@ -3,6 +3,6 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Singleton main.cpp Singleton.h Singleton.cpp)
+add_executable(Singleton main.cpp Singleton.h)
 
 

@@ -7,24 +7,31 @@
 
 using namespace std;
 
+//std::shared_ptr<LanHanSingleton> LanHanSingleton::lanhan_ = nullptr;
+//std::mutex LanHanSingleton::mutex_;
+
+
 int main() {
-    EHanSingleton *e1 = EHanSingleton::GetInstance();
-    e1->SetValue(100);
+    EHanSingleton& e1 = EHanSingleton::GetInstance();
+    e1.SetValue(10);
+    EHanSingleton& e2 = EHanSingleton::GetInstance();
+    e2.SetValue(22);
+    cout << e1.GetValue() << endl;
+    cout << e2.GetValue() << endl;
 
-    EHanSingleton *e2 = EHanSingleton::GetInstance();
-    e2->SetValue(220);
+//    std::shared_ptr<LanHanSingleton> e3 = LanHanSingleton::GetInstance();
+//    e3->SetValue(10);
+//    std::shared_ptr<LanHanSingleton> e4 = LanHanSingleton::GetInstance();
+//    e4->SetValue(22);
+//    cout << e3->GetValue() << endl;
+//    cout << e4->GetValue() << endl;
 
-    cout << e1->GetValue() << endl;
-    cout << e2->GetValue() << endl;
-
-    LanHanSingleton *e3 = LanHanSingleton::GetInstance();
-    e3->SetValue(10);
-
-    LanHanSingleton *e4 = LanHanSingleton::GetInstance();
-    e4->SetValue(22);
-
-    cout << e3->GetValue() << endl;
-    cout << e4->GetValue() << endl;
+//    LanHanSingleton& e5 = LanHanSingleton::GetInstance();
+//    e5.SetValue(10);
+//    LanHanSingleton& e6 = LanHanSingleton::GetInstance();
+//    e6.SetValue(22);
+//    cout << e5.GetValue() << endl;
+//    cout << e6.GetValue() << endl;
 
     return 0;
 }
