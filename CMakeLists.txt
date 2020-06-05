@@ -9,3 +9,5 @@ add_executable(OneProducerOneConsumer OneProducerOneConsumer.cpp repository.h)
 
 add_executable(OneProducerManyConsumers OneProducerManyConsumers.cpp repository.h)
 
+add_executable(ManyProducersOneConsumer ManyProducersOneConsumer.cpp repository.h)
+

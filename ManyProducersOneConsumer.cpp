@@ -51,34 +51,34 @@ int ConsumeItem(ItemRepository& repo) {
 }
 
 void ProduceTask(ItemRepository& repo) {
-  for(int i=0; i<kToProduce; i++) {
-    sleep(1);
-    std::cout << "Producer thread " << std::this_thread::get_id()
-              << " producing the " << i << "^th item..." << std::endl;
-    ProduceItem(repo, i);
+  bool exit = false;
+  while(1) {
+    sleep(4);
+    unique_lock<mutex> lk(repo.produce_count_mtx);
+    if(repo.produce_count < kToProduce) {
+      ProduceItem(repo, repo.produce_count);
+      std::cout << "Producer thread " << std::this_thread::get_id()
+                << " is producing the " << repo.produce_count
+                << "^th item" << std::endl;
+      repo.produce_count++;
+    } else {
+      exit = true;
+    }
+    lk.unlock();
+    if(exit) {
+      break;
+    }
   }
   std::cout << "Producer thread " << std::this_thread::get_id()
             << " is exiting..." << std::endl;
 }
 
 void ConsumeTask(ItemRepository& repo) {
-  bool exit = false;
-  while(1) {
-    sleep(3);
-    unique_lock<mutex> lk(repo.consume_count_mtx);
-    if(repo.consume_count < kToProduce) {
-      int val = ConsumeItem(repo);
-      repo.consume_count++;
-      std::cout << "Consumer thread " << std::this_thread::get_id()
-                << " is consuming the " << val << "^th item" << std::endl;
-    } else {
-      exit = true;
-    }
-//    lk.unlock();
-    if(exit) {
-      break;
-    }
-    lk.unlock();
+  for(int i=0; i<kToProduce; i++) {
+    sleep(1);
+    int data = ConsumeItem(repo);
+    std::cout << "Consumer thread " << std::this_thread::get_id()
+              << " is consuming the " << data << "^th item" << std::endl;
   }
   std::cout << "Consumer thread " << std::this_thread::get_id()
             << " is exiting..." << std::endl;
@@ -89,23 +89,25 @@ void InitItemRepository(ItemRepository& repo) {
   repo.consume_index = 0;
   repo.produce_index = 0;
   repo.consume_count = 0;
+  repo.produce_count = 0;
 }
 
 int main()
 {
   ItemRepository repo;
   InitItemRepository(repo);
-  std::thread producer(ProduceTask, ref(repo));
-  std::thread consumer1(ConsumeTask, ref(repo));
-  std::thread consumer2(ConsumeTask, ref(repo));
-  std::thread consumer3(ConsumeTask, ref(repo));
-  std::thread consumer4(ConsumeTask, ref(repo));
+  std::thread producer1(ProduceTask, ref(repo));
+  std::thread producer2(ProduceTask, ref(repo));
+  std::thread producer3(ProduceTask, ref(repo));
+  std::thread producer4(ProduceTask, ref(repo));
 
-  producer.join();
-  consumer1.join();
-  consumer2.join();
-  consumer3.join();
-  consumer4.join();
+  std::thread consumer(ConsumeTask, ref(repo));
+
+  producer1.join();
+  producer2.join();
+  producer3.join();
+  producer4.join();
+  consumer.join();
 
   cout << "------- END -------" << endl;
 

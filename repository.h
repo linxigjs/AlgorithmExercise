@@ -19,6 +19,10 @@ struct ItemRepository {
     //for OneProducerManyConsumers
     mutex consume_count_mtx;
     int consume_count = 0;
+
+    //for ManyProducersOneConsumer
+    mutex produce_count_mtx;
+    int produce_count = 0;
 };
 
 #endif
