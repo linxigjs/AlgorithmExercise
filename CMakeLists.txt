@@ -3,6 +3,8 @@ project(AlgorithmExercise)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Singleton main.cpp Singleton.h)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread" )
+
+add_executable(OneProducerOneConsumer OneProducerOneConsumer.cpp repository.h)
 
 
