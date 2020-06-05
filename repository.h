@@ -13,7 +13,7 @@ struct ItemRepository {
     //for OneProducerOneConsumer
     vector<int> buffer;
     condition_variable not_full, not_empty;
-    mutex mtx, ano;
+    mutex mtx;
     int produce_index = 0, consume_index = 0;
 
     //for OneProducerManyConsumers
