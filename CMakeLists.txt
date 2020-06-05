@@ -7,4 +7,5 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread" )
 
 add_executable(OneProducerOneConsumer OneProducerOneConsumer.cpp repository.h)
 
+add_executable(OneProducerManyConsumers OneProducerManyConsumers.cpp repository.h)
 

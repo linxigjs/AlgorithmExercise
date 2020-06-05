@@ -30,7 +30,9 @@ int ConsumeItem(ItemRepository& repo) {
     std::cout << "Consumer is waiting for items...\n";
     repo.not_empty.wait(lk);
   }
-  data = repo.buffer[repo.consume_index++];
+  data = repo.buffer[repo.consume_index];
+  repo.buffer[repo.consume_index] = -1;
+  repo.consume_index++;
   if(repo.consume_index >= repo_size) {
     repo.consume_index = 0;
   }
@@ -61,8 +63,7 @@ void ConsumeTask(ItemRepository& repo) {
 }
 
 void InitItemRepository(ItemRepository& repo) {
-  repo.buffer.clear();
-  repo.buffer.resize(kToProduce);
+  repo.buffer = vector<int>(repo_size, -1);
   repo.consume_index = 0;
   repo.produce_index = 0;
 }
