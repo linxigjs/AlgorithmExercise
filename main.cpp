@@ -16,15 +16,6 @@ int main() {
 
     cout << e1.GetValue() << endl;
     cout << e2.GetValue() << endl;
-/*
-    LanHanSingleton *e3 = LanHanSingleton::GetInstance();
-    e3->SetValue(10);
 
-    LanHanSingleton *e4 = LanHanSingleton::GetInstance();
-    e4->SetValue(22);
-
-    cout << e3->GetValue() << endl;
-    cout << e4->GetValue() << endl;
-*/
     return 0;
 }

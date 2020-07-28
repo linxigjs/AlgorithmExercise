@@ -7,6 +7,7 @@
 
 #include <mutex>
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -20,51 +21,103 @@ public:
         return ehan;
     }
 
+    ~EHanSingleton(){
+        std::cout << "ehan destructor called!" << std::endl;
+    }
+
     void SetValue(int v) {
-        num = v;
+        num_ = v;
     }
 
     int GetValue() const {
-        return num;
+        return num_;
     }
 
 private:
-    EHanSingleton() {}
+    EHanSingleton() {
+        std::cout << "ehan constructor called!" << std::endl;
+    }
 
-    int num = 0;
+    int num_ = 0;
 };
 
 /*
 class LanHanSingleton {
 public:
-    static LanHanSingleton* GetInstance() {
-        if(lanhan == nullptr) {
-            std::mutex m;
-            m.lock();
-            if(lanhan == nullptr) {
-                cout << "懒汉模式构造" << endl;
-                lanhan = new LanHanSingleton();
+
+    LanHanSingleton(const LanHanSingleton&)=delete;
+    LanHanSingleton& operator=(const LanHanSingleton&)=delete;
+
+    static std::shared_ptr<LanHanSingleton> GetInstance() {
+        if(nullptr == lanhan_) {
+            std::lock_guard<std::mutex> lk(mutex_);
+//            mutex_.lock();
+            if(nullptr == lanhan_) {
+                //make_shared 函数模板并非类的友元函数，其访问了私有构造函数，最简单的方法就是用new替代make_shared
+//                lanhan_ = std::make_shared<LanHanSingleton>();  //error
+                lanhan_ = std::shared_ptr<LanHanSingleton>(new LanHanSingleton);
+
             }
-            m.unlock();
+//            mutex_.unlock();
         }
-        return lanhan;
+        return lanhan_;
+    }
+
+    ~LanHanSingleton(){
+        std::cout << "lanhan destructor called!" << std::endl;
     }
 
     void SetValue(int v) {
-        num = v;
+        num_ = v;
     }
 
     int GetValue() const {
-        return num;
+        return num_;
     }
 
 private:
+    LanHanSingleton() {
+        std::cout << "lanhan constructor called!" << std::endl;
+    }
 
-    LanHanSingleton() {}
+    static std::shared_ptr<LanHanSingleton> lanhan_;
 
-    static LanHanSingleton* lanhan;
+    static std::mutex mutex_;
 
-    int num = 0;
+    int num_ = 0;
+};
+*/
+
+/*
+class LanHanSingleton {
+public:
+
+    LanHanSingleton(const LanHanSingleton&)=delete;
+    LanHanSingleton& operator=(const LanHanSingleton&)=delete;
+
+    static LanHanSingleton& GetInstance() {
+        static LanHanSingleton lanhan;
+        return lanhan;
+    }
+
+    ~LanHanSingleton(){
+        std::cout << "lanhan destructor called!" << std::endl;
+    }
+
+    void SetValue(int v) {
+        num_ = v;
+    }
+
+    int GetValue() const {
+        return num_;
+    }
+
+private:
+    LanHanSingleton() {
+        std::cout << "lanhan constructor called!" << std::endl;
+    }
+
+    int num_ = 0;
 };
 */
 
