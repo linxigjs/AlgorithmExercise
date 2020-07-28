@@ -12,7 +12,11 @@ using namespace std;
 
 class EHanSingleton {
 public:
-    static EHanSingleton* GetInstance() {
+    EHanSingleton(const EHanSingleton&)=delete;
+    EHanSingleton& operator=(const EHanSingleton&)=delete;
+
+    static EHanSingleton& GetInstance() {
+        static EHanSingleton ehan;
         return ehan;
     }
 
@@ -27,12 +31,10 @@ public:
 private:
     EHanSingleton() {}
 
-    static EHanSingleton* ehan;
-
     int num = 0;
 };
 
-
+/*
 class LanHanSingleton {
 public:
     static LanHanSingleton* GetInstance() {
@@ -64,5 +66,6 @@ private:
 
     int num = 0;
 };
+*/
 
 #endif //ALGORITHMEXERCISE_SINGLETON_H
